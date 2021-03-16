@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { Booklist } from './components/Booklist';
 
@@ -14,12 +15,18 @@ const Navigation = ({ linkList }) => {
   return <ul>{links}</ul>;
 };
 
+const getDataFromAPI = async (keyword) => {
+  const API = 'https://www.googleapis.com/books/v1/volumes';
+  const params = {
+    q: `intitle:${keyword}`,
+  };
+  const res = await axios.get(API, { params });
+
+  return res;
+};
+
 function App() {
   const languages = ['React', 'Vue', 'Angular'];
-
-  const getDataFromAPI = (keyword) => {
-    return `${keyword}`;
-  };
 
   return (
     <BrowserRouter>
