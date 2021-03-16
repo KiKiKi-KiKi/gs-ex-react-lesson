@@ -17,6 +17,10 @@ const Navigation = ({ linkList }) => {
 function App() {
   const languages = ['React', 'Vue', 'Angular'];
 
+  const getDataFromAPI = (keyword) => {
+    return `${keyword}`;
+  };
+
   return (
     <BrowserRouter>
       <div>
@@ -26,15 +30,21 @@ function App() {
         <Route
           exact
           path="/"
-          render={() => <Booklist language={languages[0]} />}
+          render={() => (
+            <Booklist language={languages[0]} getData={getDataFromAPI} />
+          )}
         />
         <Route
           path="/vue"
-          render={() => <Booklist language={languages[1]} />}
+          render={() => (
+            <Booklist language={languages[1]} getData={getDataFromAPI} />
+          )}
         />
         <Route
           path="/angular"
-          render={() => <Booklist language={languages[2]} />}
+          render={() => (
+            <Booklist language={languages[2]} getData={getDataFromAPI} />
+          )}
         />
       </div>
     </BrowserRouter>

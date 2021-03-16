@@ -1,7 +1,9 @@
-export const Booklist = ({ language }) => {
+export const Booklist = ({ language, getData }) => {
+  const result = getData?.(language);
+
   return (
     <div>
-      <p>This is {language} book list component</p>
+      <p>This is {result} book list component</p>
     </div>
   );
 };
