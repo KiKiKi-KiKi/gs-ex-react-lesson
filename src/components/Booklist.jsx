@@ -1,7 +1,7 @@
-export const Booklist = () => {
+export const Booklist = ({ language }) => {
   return (
     <div>
-      <p>This. is book list component</p>
+      <p>This is {language} book list component</p>
     </div>
   );
 };
