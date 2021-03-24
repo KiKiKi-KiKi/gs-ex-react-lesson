@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { Booklist } from './components/Booklist';
+import { Booklist } from './Components/Booklist';
 
 // React-router-dom
 // https://reactrouter.com/web/api/Route
@@ -15,16 +14,6 @@ const Navigation = ({ linkList }) => {
   return <ul>{links}</ul>;
 };
 
-const getDataFromAPI = async (keyword) => {
-  const API = 'https://www.googleapis.com/books/v1/volumes';
-  const params = {
-    q: `intitle:${keyword}`,
-  };
-  const res = await axios.get(API, { params });
-
-  return res;
-};
-
 function App() {
   const languages = ['React', 'Vue', 'Angular'];
 
@@ -37,21 +26,15 @@ function App() {
         <Route
           exact
           path="/"
-          render={() => (
-            <Booklist language={languages[0]} getData={getDataFromAPI} />
-          )}
+          render={() => <Booklist language={languages[0]} />}
         />
         <Route
           path="/vue"
-          render={() => (
-            <Booklist language={languages[1]} getData={getDataFromAPI} />
-          )}
+          render={() => <Booklist language={languages[1]} />}
         />
         <Route
           path="/angular"
-          render={() => (
-            <Booklist language={languages[2]} getData={getDataFromAPI} />
-          )}
+          render={() => <Booklist language={languages[2]} />}
         />
       </div>
     </BrowserRouter>

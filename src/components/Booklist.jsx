@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useBookItems } from '../Hooks/useBookItems';
 
 const Empty = () => {
   return <p>No data.</p>;
@@ -15,18 +15,8 @@ const Book = ({ title, infoLink, description }) => {
   );
 };
 
-export const Booklist = ({ language, getData }) => {
-  const [bookData, setBookData] = useState(null);
-
-  useEffect(() => {
-    const getBookData = async () => {
-      const res = await getData?.(language);
-      if (res && res.data?.items) {
-        setBookData(res.data.items);
-      }
-    };
-    getBookData();
-  }, [language, getData]);
+export const Booklist = ({ language }) => {
+  const { bookData } = useBookItems(language);
 
   return (
     <div>
