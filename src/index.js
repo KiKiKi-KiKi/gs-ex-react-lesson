@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.scss';
-import { default as BookList } from './BookList/App';
+import { App as TodoApp } from './TodoList';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BookList />
+    <TodoApp />
   </React.StrictMode>,
   document.getElementById('root'),
 );
