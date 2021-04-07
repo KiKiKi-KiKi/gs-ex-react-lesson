@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useFetchData } from './useFetchData';
+import { useFetchData } from '../../Hooks/useFetchData';
 
 export const useBookItems = (keyword) => {
   const featcher = (keyword) => {
@@ -14,6 +14,7 @@ export const useBookItems = (keyword) => {
   const { data, error } = useFetchData(keyword, featcher);
 
   return {
+    // item param become empty when data.totalItems is 0.
     bookData: data && data.data?.items,
     isLoading: !error && !data,
     isError: error,

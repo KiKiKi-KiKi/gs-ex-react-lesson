@@ -15,7 +15,7 @@ const Navigation = ({ linkList }) => {
 };
 
 function App() {
-  const languages = ['React', 'Vue', 'Angular'];
+  const languages = ['React', 'Vue', 'Angular', 'nodata'];
 
   return (
     <BrowserRouter>
@@ -36,6 +36,7 @@ function App() {
           path="/angular"
           render={() => <Booklist language={languages[2]} />}
         />
+        <Route path="/nodata" render={() => <Booklist language="NODATA" />} />
       </div>
     </BrowserRouter>
   );
