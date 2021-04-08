@@ -1,3 +1,4 @@
+import { InputForm } from './Components/InputForm';
 import { TodoList } from './Components/TodoList';
 
 export const App = () => {
@@ -5,6 +6,7 @@ export const App = () => {
     <div>
       <h1>Firebase TODO App</h1>
       <TodoList />
+      <InputForm />
     </div>
   );
 };
