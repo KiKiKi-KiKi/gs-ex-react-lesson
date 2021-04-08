@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { COLLECTION } from '../config';
 import { db, createAtTimestamp, timestamp } from '../firebase';
 
-export const InputForm = () => {
+export const InputForm = ({ onReloadTodoList }) => {
   const [todo, setTodo] = useState('');
   const [dueDate, setDueDate] = useState('');
 
@@ -43,6 +43,7 @@ export const InputForm = () => {
       const res = await postDataToFirebase(postData);
       console.log(res);
       resetFormHandler();
+      onReloadTodoList();
     } catch (err) {
       console.log(err);
     }
