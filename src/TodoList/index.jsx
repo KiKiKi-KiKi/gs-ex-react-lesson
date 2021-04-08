@@ -4,6 +4,11 @@ import { TodoList } from './Components/TodoList';
 import { db } from './firebase';
 import { COLLECTION } from './config';
 
+/*
+  todoList = [
+    [id, todoItem]
+  ]
+*/
 export const App = () => {
   const [todoList, setTodoList] = useState(null);
 
@@ -14,10 +19,7 @@ export const App = () => {
       .get();
 
     const todos = itemListArray.docs.map((item) => {
-      return {
-        id: item.id,
-        data: item.data(),
-      };
+      return [item.id, item.data()];
     });
     setTodoList(todos);
 

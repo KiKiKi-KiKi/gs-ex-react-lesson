@@ -23,7 +23,7 @@ export const TodoList = ({ todoList, onReloadTodoList }) => {
 
   return (
     <ul>
-      {todoList?.map(({ id, data }) => {
+      {todoList?.map(([id, data]) => {
         return (
           <li key={id} id={id}>
             <TodoItem
