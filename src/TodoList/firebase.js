@@ -11,3 +11,8 @@ export const db = firebaseApp.firestore();
 export const createAtTimestamp = () => {
   return firebase.firestore.FieldValue.serverTimestamp();
 };
+
+// Convert firestore.Timestamp
+export const timestamp = (datetimeStr) => {
+  return firebase.firestore.Timestamp.fromDate(new Date(datetimeStr));
+};

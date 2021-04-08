@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { COLLECTION } from '../config';
-import { createAtTimestamp, db } from '../firebase';
+import { db, createAtTimestamp, timestamp } from '../firebase';
 
 export const InputForm = () => {
   const [todo, setTodo] = useState('');
@@ -33,12 +33,13 @@ export const InputForm = () => {
 
     const postData = {
       todo,
-      dueDate,
+      dueDate: timestamp(dueDate),
       isDone: false,
       createAt: createAtTimestamp(),
     };
 
     try {
+      // DocumentReference
       const res = await postDataToFirebase(postData);
       console.log(res);
       resetFormHandler();
