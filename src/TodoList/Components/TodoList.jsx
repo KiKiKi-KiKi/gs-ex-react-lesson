@@ -1,10 +1,17 @@
 import dayjs from 'dayjs';
 import { useCallback } from 'react';
+import { COLLECTION } from '../config';
+import { db } from '../firebase';
 import { TodoItem } from './TodoItem';
 
-export const TodoList = ({ todoList }) => {
-  const changeStatusHandler = useCallback(({ id, isDone }) => {
-    console.log('change State', id, isDone);
+export const TodoList = ({ todoList, onReloadTodoList }) => {
+  const changeStatusHandler = useCallback(async ({ id, isDone }) => {
+    console.log('> change State', id, isDone);
+    // update return undefined
+    await db.collection(COLLECTION).doc(id).update({
+      isDone: !isDone,
+    });
+    onReloadTodoList();
   }, []);
 
   const deleteHandler = useCallback((id) => {

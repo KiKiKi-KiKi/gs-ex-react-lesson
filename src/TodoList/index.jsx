@@ -37,7 +37,7 @@ export const App = () => {
   return (
     <div>
       <h1>Firebase TODO App</h1>
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList} onReloadTodoList={getTodoFromFirebase} />
       <InputForm onReloadTodoList={getTodoFromFirebase} />
     </div>
   );
