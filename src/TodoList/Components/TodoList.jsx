@@ -14,8 +14,11 @@ export const TodoList = ({ todoList, onReloadTodoList }) => {
     onReloadTodoList();
   }, []);
 
-  const deleteHandler = useCallback((id) => {
+  const deleteHandler = useCallback(async (id) => {
     console.log('Delete', id);
+    // delete return undefined
+    await db.collection(COLLECTION).doc(id).delete();
+    onReloadTodoList();
   }, []);
 
   return (
