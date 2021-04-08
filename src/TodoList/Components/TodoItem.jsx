@@ -1,5 +1,3 @@
-import { useCallback } from 'react';
-
 export const TodoItem = ({
   id,
   todo,
@@ -8,15 +6,15 @@ export const TodoItem = ({
   changeStatusHandler,
   deleteHandler,
 }) => {
-  const onChangeStatus = useCallback(() => {
+  const onChangeStatus = () => {
     changeStatusHandler({ id, isDone });
-  }, [id, isDone]);
+  },;
 
-  const onDelete = useCallback(() => {
+  const onDelete = () => {
     if (window.confirm(`Delete ${todo}?`)) {
       deleteHandler(id);
     }
-  }, [id]);
+  };
 
   return (
     <div>

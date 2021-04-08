@@ -4,22 +4,29 @@ import { COLLECTION } from '../config';
 import { db } from '../firebase';
 import { TodoItem } from './TodoItem';
 
-export const TodoList = ({ todoList, onReloadTodoList }) => {
-  const changeStatusHandler = useCallback(async ({ id, isDone }) => {
-    console.log('> change State', id, isDone);
-    // update return undefined
-    await db.collection(COLLECTION).doc(id).update({
-      isDone: !isDone,
-    });
-    onReloadTodoList();
-  }, []);
+export const TodoList = ({ todoList, onUpdateStatus, onDelete }) => {
+  const changeStatusHandler = useCallback(
+    ({ id, isDone }) => {
+      console.log('> change State', id, !isDone);
+      const status = !isDone;
+      onUpdateStatus({ id, isDone: status });
+      // update return undefined
+      db.collection(COLLECTION).doc(id).update({
+        isDone: status,
+      });
+    },
+    [onUpdateStatus],
+  );
 
-  const deleteHandler = useCallback(async (id) => {
-    console.log('Delete', id);
-    // delete return undefined
-    await db.collection(COLLECTION).doc(id).delete();
-    onReloadTodoList();
-  }, []);
+  const deleteHandler = useCallback(
+    async (id) => {
+      console.log('Delete', id);
+      onDelete(id);
+      // delete return undefined
+      await db.collection(COLLECTION).doc(id).delete();
+    },
+    [onDelete],
+  );
 
   return (
     <ul>
