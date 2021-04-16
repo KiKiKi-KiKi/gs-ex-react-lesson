@@ -8,7 +8,7 @@ export const TodoItem = ({
 }) => {
   const onChangeStatus = () => {
     changeStatusHandler({ id, isDone });
-  },;
+  };
 
   const onDelete = () => {
     if (window.confirm(`Delete ${todo}?`)) {
