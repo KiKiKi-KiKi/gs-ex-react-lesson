@@ -36,7 +36,7 @@ export const TodoList = ({ todoList, onUpdateStatus, onDelete }) => {
             <TodoItem
               id={id}
               {...data}
-              dueDate={dayjs(data.dueDate.seconds).format('YYYY-MM-DD H:mm:ss')}
+              dueDate={dayjs(data?.dueDate.toDate()).format('YYYY-MM-DD HH:mm')}
               changeStatusHandler={changeStatusHandler}
               deleteHandler={deleteHandler}
             />
