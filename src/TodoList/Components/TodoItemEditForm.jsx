@@ -23,6 +23,10 @@ export const TodoItemEditForm = ({
     [],
   );
 
+  const cancelHandler = useCallback(() => {
+    onEditModeEnd();
+  }, [onEditModeEnd]);
+
   const updateTodoHandler = async (evt) => {
     evt.preventDefault();
     const todoTitle = todo.trim();
@@ -59,6 +63,9 @@ export const TodoItemEditForm = ({
           onChange={updateValueHandler(setDueDate)}
         />
         <button type="submit">Update</button>
+        <button type="button" onClick={cancelHandler}>
+          Cancel
+        </button>
       </form>
     </div>
   );
