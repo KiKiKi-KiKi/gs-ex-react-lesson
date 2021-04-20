@@ -17,7 +17,7 @@ export const TodoItemEditForm = ({
 
   const updateValueHandler = useCallback(
     (callback) => (evt) => {
-      const value = evt.currentTarget.value.trim();
+      const value = evt.currentTarget.value;
       typeof callback === 'function' && callback(value);
     },
     [],
@@ -25,14 +25,15 @@ export const TodoItemEditForm = ({
 
   const updateTodoHandler = async (evt) => {
     evt.preventDefault();
-    if (todo === '' || dueDate === '') {
+    const todoTitle = todo.trim();
+    if (todoTitle === '' || dueDate === '') {
       return false;
     }
 
     await onUpdate({
       id,
       postData: {
-        todo,
+        todo: todoTitle,
         dueDate: timestamp(dueDate),
       },
     });

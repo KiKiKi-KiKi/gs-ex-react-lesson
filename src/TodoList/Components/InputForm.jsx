@@ -8,7 +8,7 @@ export const InputForm = ({ onReloadTodoList }) => {
 
   const updateValueHandler = useCallback(
     (callback) => (evt) => {
-      const value = evt.currentTarget.value.trim();
+      const value = evt.currentTarget.value;
       typeof callback === 'function' && callback(value);
     },
     [],
@@ -27,12 +27,13 @@ export const InputForm = ({ onReloadTodoList }) => {
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
-    if (todo === '' || dueDate === '') {
+    const todoTitle = todo.trim();
+    if (todoTitle === '' || dueDate === '') {
       return false;
     }
 
     const postData = {
-      todo,
+      todo: todoTitle,
       dueDate: timestamp(dueDate),
       isDone: false,
       createAt: createAtTimestamp(),
