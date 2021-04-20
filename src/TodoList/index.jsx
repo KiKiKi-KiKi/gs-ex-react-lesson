@@ -42,6 +42,22 @@ export const App = () => {
     });
   }, []);
 
+  const updateTodo = useCallback(({ id, postData }) => {
+    setTodoList((todoList) => {
+      const todoListMap = new Map(todoList);
+      const item = todoListMap.get(id);
+      if (!item) {
+        return todoList;
+      }
+
+      // update
+      todoListMap.set(id, { ...item, ...postData });
+      const newTodoList = [...todoListMap.entries()];
+
+      return newTodoList;
+    });
+  }, []);
+
   const deleteTodoFromList = useCallback((id) => {
     setTodoList((todoList) => {
       const todoListMap = new Map(todoList);
@@ -73,6 +89,7 @@ export const App = () => {
       <TodoList
         todoList={todoList}
         onUpdateStatus={changeTodoStatus}
+        onUpdateTodo={updateTodo}
         onDelete={deleteTodoFromList}
       />
       <InputForm onReloadTodoList={getTodoFromFirebase} />

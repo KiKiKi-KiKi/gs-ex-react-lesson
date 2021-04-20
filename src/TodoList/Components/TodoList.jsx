@@ -4,7 +4,12 @@ import { COLLECTION } from '../config';
 import { db } from '../firebase';
 import { TodoItem } from './TodoItem';
 
-export const TodoList = ({ todoList, onUpdateStatus, onDelete }) => {
+export const TodoList = ({
+  todoList,
+  onUpdateStatus,
+  onUpdateTodo,
+  onDelete,
+}) => {
   const changeStatusHandler = useCallback(
     ({ id, isDone }) => {
       console.log('> change State', id, !isDone);
@@ -17,6 +22,17 @@ export const TodoList = ({ todoList, onUpdateStatus, onDelete }) => {
     },
     [onUpdateStatus],
   );
+
+  const updateHandler = useCallback(async ({ id, postData }) => {
+    console.log('Update', id, postData);
+    await db
+      .collection(COLLECTION)
+      .doc(id)
+      .update({
+        ...postData,
+      });
+    onUpdateTodo({ id, postData });
+  }, []);
 
   const deleteHandler = useCallback(
     async (id) => {
@@ -38,6 +54,7 @@ export const TodoList = ({ todoList, onUpdateStatus, onDelete }) => {
               {...data}
               dueDate={dayjs(data?.dueDate.toDate()).format('YYYY-MM-DD HH:mm')}
               changeStatusHandler={changeStatusHandler}
+              updateHandler={updateHandler}
               deleteHandler={deleteHandler}
             />
           </li>
