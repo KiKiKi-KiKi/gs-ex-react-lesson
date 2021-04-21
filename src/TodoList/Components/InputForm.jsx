@@ -1,10 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useAppendTodo } from '../hooks/useAppendTodo';
+import { LoadingSpinner } from './LoadingSpinner';
 
 export const InputForm = ({ onReloadTodoList }) => {
   const [todo, setTodo] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const { appendTodo } = useAppendTodo();
+  const { isLoading, appendTodo } = useAppendTodo();
 
   const updateValueHandler = useCallback(
     (callback) => (evt) => {
@@ -57,7 +58,10 @@ export const InputForm = ({ onReloadTodoList }) => {
         />
       </div>
       <div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isLoading}>
+          Submit
+          {isLoading && <LoadingSpinner />}
+        </button>
       </div>
     </form>
   );
