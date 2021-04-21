@@ -3,6 +3,7 @@ import { COLLECTION } from './config';
 import { useGetTodoListFromFirebase } from './hooks/useGetTodoListFromFirebase';
 import { useDisposeTodoList } from './hooks/useDisposeTodoList';
 import { TodoList } from './Components/TodoList';
+import { InputForm } from './Components/InputForm';
 
 const Loading = () => {
   return <p>Loading...</p>;
@@ -58,6 +59,7 @@ export const TodoApp = () => {
       <TodoListProvider isLoading={isLoading} error={error}>
         <TodoListContainer>
           <TodoList />
+          <InputForm />
         </TodoListContainer>
       </TodoListProvider>
     </div>

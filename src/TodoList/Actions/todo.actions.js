@@ -62,16 +62,13 @@ export const disposeTodoList = () => ({
   type: DISPOSE,
 });
 
-export const addTodo = {
-  start: asyncStart,
-  fail: asyncFail,
-  succeed: (data) => ({
-    type: ADD,
-    payload: {
-      ...data,
-    },
-  }),
-};
+export const addTodo = ({ id, data }) => ({
+  type: ADD,
+  payload: {
+    id,
+    data,
+  },
+});
 
 export const changeStatusTodo = {
   start: asyncStart,

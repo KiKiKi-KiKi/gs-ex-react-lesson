@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
-import { COLLECTION } from '../config';
-import { db, createAtTimestamp, timestamp } from '../firebase';
+import { useAppendTodo } from '../hooks/useAppendTodo';
 
 export const InputForm = ({ onReloadTodoList }) => {
   const [todo, setTodo] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const { appendTodo } = useAppendTodo();
 
   const updateValueHandler = useCallback(
     (callback) => (evt) => {
@@ -19,12 +19,6 @@ export const InputForm = ({ onReloadTodoList }) => {
     setDueDate('');
   }, []);
 
-  const postDataToFirebase = useCallback(async (postData) => {
-    const addedDocRef = await db.collection(COLLECTION).add(postData);
-
-    return addedDocRef;
-  }, []);
-
   const submitHandler = async (evt) => {
     evt.preventDefault();
     const todoTitle = todo.trim();
@@ -32,17 +26,9 @@ export const InputForm = ({ onReloadTodoList }) => {
       return false;
     }
 
-    const postData = {
-      todo: todoTitle,
-      dueDate: timestamp(dueDate),
-      isDone: false,
-      createAt: createAtTimestamp(),
-    };
-
     try {
       // DocumentReference
-      const res = await postDataToFirebase(postData);
-      console.log(res);
+      await appendTodo({ todoTitle, dueDate });
       resetFormHandler();
       onReloadTodoList();
     } catch (err) {
