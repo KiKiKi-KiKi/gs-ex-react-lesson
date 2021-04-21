@@ -1,5 +1,13 @@
 import { INITIAL_STATE } from '../config';
-import { ASYNC, FAIL, ADD, UPDATE, DELETE } from '../Actions/todo.actions';
+import {
+  ASYNC,
+  FAIL,
+  SETUP,
+  DISPOSE,
+  ADD,
+  UPDATE,
+  DELETE,
+} from '../Actions/todo.actions';
 
 export const todoReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -19,6 +27,16 @@ export const todoReducer = (state = INITIAL_STATE, action) => {
         isLoading: false,
         error: action.payload.error,
       };
+    }
+    case SETUP: {
+      return {
+        todos: action.payload.todos,
+        isLoading: false,
+        error: null,
+      };
+    }
+    case DISPOSE: {
+      return INITIAL_STATE;
     }
     case ADD: {
       return {

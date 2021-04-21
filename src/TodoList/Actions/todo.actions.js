@@ -1,5 +1,7 @@
 export const ASYNC = 'TODO/ASYNC_START';
 export const FAIL = 'TODO/ASYNC_FAIL';
+export const SETUP = 'TODO/SETUP_TODOLIST';
+export const DISPOSE = 'TODO/DISPOSE_TODOLIST';
 export const ADD = 'TODO/ADD';
 export const UPDATE = 'TODO/UPDATE';
 export const DELETE = 'TODO/DELETE';
@@ -43,6 +45,21 @@ const asyncFail = ({ error, isRollback, rollbackData }) => ({
     rollbackData,
   },
   error: true,
+});
+
+export const setUpTodoList = {
+  start: asyncStart,
+  fail: asyncFail,
+  succeed: (todos) => ({
+    type: SETUP,
+    payload: {
+      todos,
+    },
+  }),
+};
+
+export const disposeTodoList = () => ({
+  type: DISPOSE,
 });
 
 export const addTodo = {
