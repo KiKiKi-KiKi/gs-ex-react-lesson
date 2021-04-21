@@ -2,6 +2,7 @@
 TODO item Schema
 interface TodoItem {
   todo: string;
+  isDone: boolean;
   dueDate: firestore.Timestamp;
   createAt: firestore.Timestamp;
 }
