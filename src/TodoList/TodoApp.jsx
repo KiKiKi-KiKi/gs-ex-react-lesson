@@ -1,52 +1,8 @@
-import { createContext, useCallback, useContext, useEffect } from 'react';
-import { db } from './firebase';
+import { createContext, useContext, useEffect } from 'react';
 import { COLLECTION } from './config';
-import { disposeTodoList, setUpTodoList } from './Actions/todo.actions';
-import { TodoContext } from './Contexts/todo.context';
+import { useGetTodoListFromFirebase } from './hooks/useGetTodoListFromFirebase';
+import { useDisposeTodoList } from './hooks/useDisposeTodoList';
 import { TodoList } from './Components/TodoList';
-
-const useGetTodoListFromFirebase = (collectionName) => {
-  const { state, dispatch } = useContext(TodoContext);
-
-  const getTodoListFromFirebase = useCallback(async () => {
-    // isLoading true
-    dispatch(setUpTodoList.start());
-    try {
-      const todoListDocs = await db
-        .collection(collectionName)
-        .orderBy('dueDate')
-        .get();
-
-      const todoList = todoListDocs.docs.map((item) => {
-        return [item.id, item.data()];
-      });
-
-      // set todos
-      dispatch(setUpTodoList.succeed(todoList));
-    } catch (error) {
-      console.log(error, error.message);
-      // set Error
-      dispatch(setUpTodoList.fail({ error }));
-    }
-  }, [dispatch]);
-
-  return {
-    ...state,
-    getTodoListFromFirebase,
-  };
-};
-
-const useDisposeTodoList = () => {
-  const { dispatch } = useContext(TodoContext);
-
-  const disposeTodo = useCallback(() => {
-    dispatch(disposeTodoList());
-  }, [dispatch]);
-
-  return {
-    disposeTodo,
-  };
-};
 
 const Loading = () => {
   return <p>Loading...</p>;
