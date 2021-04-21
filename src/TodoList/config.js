@@ -14,3 +14,16 @@ interface Todo {
  */
 
 export const COLLECTION = 'todos';
+
+/*
+interface State {
+  todos: Todo[];
+  isLoading: booleam;
+  error: FirestoreError | null;
+}
+*/
+
+export const INITIAL_STATE = {
+  todos: [],
+  isLoading: false,
+};
