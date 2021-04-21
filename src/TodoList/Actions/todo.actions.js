@@ -1,7 +1,6 @@
 export const ASYNC = 'TODO/ASYNC_START';
 export const FAIL = 'TODO/ASYNC_FAIL';
 export const ADD = 'TODO/ADD';
-export const TOGGLE = 'TODO/TOGGLE';
 export const UPDATE = 'TODO/UPDATE';
 export const DELETE = 'TODO/DELETE';
 
@@ -60,11 +59,13 @@ export const addTodo = {
 export const changeStatusTodo = {
   start: asyncStart,
   fail: asyncFail,
-  succeed: ({ id, data }) => ({
+  succeed: ({ id, status }) => ({
     type: UPDATE,
     payload: {
       id,
-      ...data,
+      data: {
+        isDone: status,
+      },
     },
   }),
 };
@@ -72,11 +73,11 @@ export const changeStatusTodo = {
 export const updateTodo = {
   start: asyncStart,
   fail: asyncFail,
-  succeed: ({ id, status }) => ({
-    type: TOGGLE,
+  succeed: ({ id, data }) => ({
+    type: UPDATE,
     payload: {
       id,
-      status,
+      data: { ...data },
     },
   }),
 };
