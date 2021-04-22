@@ -5,7 +5,7 @@ import { LoadingSpinner } from './LoadingSpinner';
 export const InputForm = ({ onReloadTodoList }) => {
   const [todo, setTodo] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const { isLoading, appendTodo } = useAppendTodo();
+  const { isLoading, appendTodoHandler } = useAppendTodo();
 
   const updateValueHandler = useCallback(
     (callback) => (evt) => {
@@ -29,7 +29,7 @@ export const InputForm = ({ onReloadTodoList }) => {
 
     try {
       // DocumentReference
-      await appendTodo({ todoTitle, dueDate });
+      await appendTodoHandler({ todoTitle, dueDate });
       resetFormHandler();
       onReloadTodoList();
     } catch (err) {

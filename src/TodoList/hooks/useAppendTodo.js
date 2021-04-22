@@ -8,7 +8,7 @@ export const useAppendTodo = () => {
   const { dispatch } = useContext(TodoContext);
   const [isLoading, setIsLoading] = useState(false);
 
-  const appendTodo = useCallback(
+  const appendTodoHandler = useCallback(
     async ({ todoTitle, dueDate }) => {
       setIsLoading(true);
       try {
@@ -35,7 +35,7 @@ export const useAppendTodo = () => {
 
         return true;
       } catch (error) {
-        console.log('appendTodo', error.message, error);
+        console.log('appendTodoHandler', error.message, error);
         setIsLoading(false);
         throw error;
       }
@@ -45,6 +45,6 @@ export const useAppendTodo = () => {
 
   return {
     isLoading,
-    appendTodo,
+    appendTodoHandler,
   };
 };
