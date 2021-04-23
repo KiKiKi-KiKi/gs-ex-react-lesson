@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useContext } from 'react';
 import { TodoContext } from '../Contexts/todo.context';
+import { Todo } from './TodoItem';
 
 const formatDueDate = (date) => {
   return date ? dayjs(date).format('YYYY-MM-DD HH:mm') : '';
@@ -16,8 +17,12 @@ export const TodoList = () => {
       {todos?.map(([id, data]) => {
         return (
           <li key={id} id={id}>
-            <span>{data.todo}</span>
-            <span>DueDate: {formatDueDate(data?.dueDate.toDate())}</span>
+            <Todo
+              id={id}
+              todo={data.todo}
+              dueDate={formatDueDate(data?.dueDate.toDate())}
+              isDone={data.isDone}
+            />
           </li>
         );
       })}

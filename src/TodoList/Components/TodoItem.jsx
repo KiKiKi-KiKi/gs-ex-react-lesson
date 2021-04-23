@@ -1,81 +1,52 @@
-import { useState, useCallback } from 'react';
-import { TodoItemEditForm } from './TodoItemEditForm';
+import { useCallback } from 'react';
+import { useChangeTodoStatus } from '../hooks/useChangeTodoStatus';
 
-const Todo = ({
-  id,
-  isDone,
-  onChangeMode,
-  onChangeStatus,
-  onDelete,
-  children,
-}) => {
+const TodoItem = ({ id, isDone, isLoading, onChangeStatus, children }) => {
   return (
-    <div id={id}>
+    <div id={id} className="todo">
       <input
         type="checkbox"
         value={id}
         checked={isDone}
         onChange={onChangeStatus}
+        disabled={isLoading}
       />
-      {isDone ? (
-        <del>{children}</del>
-      ) : (
-        <span onClick={onChangeMode}>{children}</span>
-      )}
-
-      <button type="button" value={id} onClick={onDelete}>
+      <div className="todoBody">
+        {!isDone ? <span>{children}</span> : <del>{children}</del>}
+      </div>
+      <button className="deleteBtn" type="button">
         DELETE
       </button>
     </div>
   );
 };
 
-export const TodoItem = ({
-  id,
-  todo,
-  dueDate,
-  isDone,
-  changeStatusHandler,
-  updateHandler,
-  deleteHandler,
-}) => {
-  const [isEdit, setIsEdit] = useState(false);
-
-  const onChangeMode = useCallback(
-    (mode) => () => {
-      setIsEdit(mode);
-    },
-    [],
-  );
-
+const useBuildTodoProps = ({ id, isDone, children }) => {
+  const { isLoading, changeTodoStatusHandler } = useChangeTodoStatus();
   const onChangeStatus = useCallback(() => {
-    changeStatusHandler({ id, isDone });
-  }, [id, isDone]);
-
-  const onDelete = useCallback(() => {
-    if (window.confirm(`Delete ${todo}?`)) {
-      deleteHandler(id);
+    try {
+      changeTodoStatusHandler({ id, status: !isDone });
+    } catch (error) {
+      alert('change status fail', error.message);
     }
-  }, [id, todo]);
+  }, [id, isDone, changeTodoStatusHandler]);
 
-  return isEdit ? (
-    <TodoItemEditForm
-      id={id}
-      itemTodo={todo}
-      itemDueDate={dueDate}
-      onUpdate={updateHandler}
-      onEditModeEnd={onChangeMode(false)}
-    />
-  ) : (
-    <Todo
-      id={id}
-      isDone={isDone}
-      onChangeMode={onChangeMode(true)}
-      onChangeStatus={onChangeStatus}
-      onDelete={onDelete}
-    >
-      <span>{todo}</span>
-      <span>DueDate: {dueDate}</span>
-    </Todo>
+  return {
+    id,
+    isDone,
+    isLoading,
+    onChangeStatus,
+    children,
+  };
+};
+
+export const Todo = ({ todo, dueDate, ...props }) => {
+  return (
+    <TodoItem {...useBuildTodoProps(props)}>
+      <span className="todoTitle">{todo}</span>
+      <span className="dueDate">
+        DueDate: <time>{dueDate}</time>
+      </span>
+    </TodoItem>
   );
 };

@@ -70,19 +70,15 @@ export const addTodo = ({ id, data }) => ({
   },
 });
 
-export const changeStatusTodo = {
-  start: asyncStart,
-  fail: asyncFail,
-  succeed: ({ id, status }) => ({
-    type: UPDATE,
-    payload: {
-      id,
-      data: {
-        isDone: status,
-      },
+export const changeTodoStatus = ({ id, status }) => ({
+  type: UPDATE,
+  payload: {
+    id,
+    data: {
+      isDone: status,
     },
-  }),
-};
+  },
+});
 
 export const updateTodo = {
   start: asyncStart,
