@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from 'react';
 import { COLLECTION } from '../config';
 import { db } from '../firebase';
-import { changeTodoStatus } from '../Actions/todo.actions';
+import { changeTodoStatus, deleteTodo } from '../Actions/todo.actions';
 import { TodoContext } from '../Contexts/todo.context';
 
 export const useChangeTodoStatus = () => {
@@ -34,8 +34,30 @@ export const useChangeTodoStatus = () => {
     [dispatch],
   );
 
+  const deleteTodoHandler = useCallback(
+    async ({ id }) => {
+      setIsLoading(true);
+      try {
+        // delete item from firestore
+        // return void
+        await db.collection(COLLECTION).doc(id).delete();
+
+        dispatch(deleteTodo({ id }));
+
+        return true;
+      } catch (error) {
+        console.log('deleteTodoHandler', error.message, error);
+
+        setIsLoading(false);
+        throw error;
+      }
+    },
+    [dispatch],
+  );
+
   return {
     isLoading,
     changeTodoStatusHandler,
+    deleteTodoHandler,
   };
 };

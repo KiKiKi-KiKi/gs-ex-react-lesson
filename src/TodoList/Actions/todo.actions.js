@@ -92,11 +92,7 @@ export const updateTodo = {
   }),
 };
 
-export const deleteTodo = {
-  start: asyncStart,
-  fail: asyncFail,
-  succeed: ({ id }) => ({
-    type: DELETE,
-    payload: { id },
-  }),
-};
+export const deleteTodo = ({ id }) => ({
+  type: DELETE,
+  payload: { id },
+});
