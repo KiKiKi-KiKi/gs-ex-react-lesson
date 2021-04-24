@@ -23,13 +23,13 @@ export const useUpdateTodo = () => {
         dispatch(updateTodo({ id, data }));
 
         // Update firebase
-        const res = await db
+        // return undefined
+        await db
           .collection(COLLECTION)
           .doc(id)
           .update({
             ...data,
           });
-        console.log(res);
 
         setIsLoading(false);
 
