@@ -80,17 +80,13 @@ export const changeTodoStatus = ({ id, status }) => ({
   },
 });
 
-export const updateTodo = {
-  start: asyncStart,
-  fail: asyncFail,
-  succeed: ({ id, data }) => ({
-    type: UPDATE,
-    payload: {
-      id,
-      data: { ...data },
-    },
-  }),
-};
+export const updateTodo = ({ id, data }) => ({
+  type: UPDATE,
+  payload: {
+    id,
+    data: { ...data },
+  },
+});
 
 export const deleteTodo = ({ id }) => ({
   type: DELETE,

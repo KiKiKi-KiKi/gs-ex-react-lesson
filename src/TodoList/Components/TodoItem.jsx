@@ -1,5 +1,6 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useChangeTodoStatus } from '../hooks/useChangeTodoStatus';
+import { TodoItemEditForm } from './TodoItemEditForm';
 
 const TodoItem = ({
   id,
@@ -7,6 +8,7 @@ const TodoItem = ({
   isLoading,
   onChangeStatus,
   onDelete,
+  onChangeEditMode,
   children,
 }) => {
   return (
@@ -19,7 +21,11 @@ const TodoItem = ({
         disabled={isLoading}
       />
       <div className="todoBody">
-        {!isDone ? <span>{children}</span> : <del>{children}</del>}
+        {!isDone ? (
+          <span onClick={onChangeEditMode}>{children}</span>
+        ) : (
+          <del>{children}</del>
+        )}
       </div>
       <button
         className="deleteBtn"
@@ -33,7 +39,7 @@ const TodoItem = ({
   );
 };
 
-const useBuildTodoProps = ({ id, isDone, children }) => {
+const useBuildTodoProps = ({ id, isDone }) => {
   const {
     isLoading,
     changeTodoStatusHandler,
@@ -64,17 +70,33 @@ const useBuildTodoProps = ({ id, isDone, children }) => {
     isLoading,
     onChangeStatus,
     onDelete,
-    children,
   };
 };
 
-export const Todo = ({ todo, dueDate, ...props }) => {
+const TodoItemContainer = ({ todo, dueDate, onChangeEditMode, ...props }) => {
   return (
-    <TodoItem {...useBuildTodoProps(props)}>
+    <TodoItem onChangeEditMode={onChangeEditMode} {...useBuildTodoProps(props)}>
       <span className="todoTitle">{todo}</span>
       <span className="dueDate">
         DueDate: <time>{dueDate}</time>
       </span>
     </TodoItem>
+  );
+};
+
+export const Todo = (props) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const changeModeHandler = useCallback(
+    (editModeFlg) => () => {
+      setIsEdit(editModeFlg);
+    },
+    [],
+  );
+
+  return isEdit ? (
+    <TodoItemEditForm {...props} onEditModeEnd={changeModeHandler(false)} />
+  ) : (
+    <TodoItemContainer {...props} onChangeEditMode={changeModeHandler(true)} />
   );
 };

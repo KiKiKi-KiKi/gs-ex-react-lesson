@@ -1,18 +1,19 @@
 import dayjs from 'dayjs';
 import { useState, useCallback } from 'react';
 import { timestamp } from '../firebase';
+import { useUpdateTodo } from '../hooks/useUpdateTodo';
 
 export const TodoItemEditForm = ({
   id,
-  itemTodo,
-  itemDueDate,
-  onUpdate,
+  todo: currentTodo,
+  dueDate: currentDueDate,
   onEditModeEnd,
 }) => {
-  const [todo, setTodo] = useState(itemTodo);
+  const { isLoading, updateTodoHandler } = useUpdateTodo();
+  const [todo, setTodo] = useState(currentTodo);
   // datetime-local input value format `yyyy-MM-ddThh:mm`
   const [dueDate, setDueDate] = useState(
-    dayjs(itemDueDate).format('YYYY-MM-DDTHH:mm'),
+    dayjs(currentDueDate).format('YYYY-MM-DDTHH:mm'),
   );
 
   const updateValueHandler = useCallback(
@@ -27,27 +28,32 @@ export const TodoItemEditForm = ({
     onEditModeEnd();
   }, [onEditModeEnd]);
 
-  const updateTodoHandler = async (evt) => {
+  const onUpdateTodoH = async (evt) => {
     evt.preventDefault();
     const todoTitle = todo.trim();
     if (todoTitle === '' || dueDate === '') {
       return false;
     }
 
-    await onUpdate({
-      id,
-      postData: {
-        todo: todoTitle,
-        dueDate: timestamp(dueDate),
-      },
-    });
+    const postData = {
+      todo: todoTitle,
+      dueDate: timestamp(dueDate),
+    };
+
+    try {
+      await updateTodoHandler({ id, data: postData });
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    console.log(postData);
 
     onEditModeEnd();
   };
 
   return (
     <div id={id}>
-      <form onSubmit={updateTodoHandler}>
+      <form onSubmit={onUpdateTodoH}>
         <input
           type="text"
           name="todo"
@@ -62,8 +68,10 @@ export const TodoItemEditForm = ({
           value={dueDate}
           onChange={updateValueHandler(setDueDate)}
         />
-        <button type="submit">Update</button>
-        <button type="button" onClick={cancelHandler}>
+        <button type="submit" disabled={isLoading}>
+          Update
+        </button>
+        <button type="button" onClick={cancelHandler} disabled={isLoading}>
           Cancel
         </button>
       </form>
