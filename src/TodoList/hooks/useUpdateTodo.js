@@ -3,17 +3,22 @@ import { updateTodo } from '../Actions/todo.actions';
 import { COLLECTION } from '../config';
 import { TodoContext } from '../Contexts/todo.context';
 import { db } from '../firebase';
+import { getTodoDataById } from '../utilities';
 
 export const useUpdateTodo = () => {
-  const { dispatch } = useContext(TodoContext);
+  const {
+    state: { todos },
+    dispatch,
+  } = useContext(TodoContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const updateTodoHandler = useCallback(
     async ({ id, data }) => {
       setIsLoading(true);
-      try {
-        // TODO: get current todo data
+      // get current todo data
+      const currentTodoData = getTodoDataById(todos)(id);
 
+      try {
         // update state
         dispatch(updateTodo({ id, data }));
 
@@ -31,8 +36,9 @@ export const useUpdateTodo = () => {
         return true;
       } catch (error) {
         console.log('updateTodoHandler', error.message, error);
-        // TODO: rollback state
-        // dispatch(changeTodoStatus({ id, status: !status }));
+        // rollback state
+        dispatch(updateTodo({ id, data: currentTodoData }));
+
         setIsLoading(false);
         throw error;
       }
