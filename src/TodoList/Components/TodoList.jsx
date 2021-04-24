@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useContext } from 'react';
 import { TodoContext } from '../Contexts/todo.context';
-import { Todo } from './TodoItem';
+import { Todo } from './Todo';
 
 const formatDueDate = (date) => {
   return date ? dayjs(date).format('YYYY-MM-DD HH:mm') : '';
